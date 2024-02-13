@@ -21,7 +21,7 @@ public class BookController {
     }
 
 
-    @CrossOrigin(origins = "http://localhost:4200")
+    //@CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/getall")
     public Iterable<BookEntity> getBooks(){return bookService.getBooks();}
 
@@ -30,7 +30,7 @@ public class BookController {
         return bookService.getBookById(id);
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
+    //@CrossOrigin(origins = "http://localhost:4200")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> deleteBook(@PathVariable Long id){
@@ -42,9 +42,15 @@ public class BookController {
         return bookService.getBookById(id);
 
     }
-    @PostMapping("/addall/")
+    @PostMapping("/addall")
     public ResponseEntity<String> addAll(@RequestBody Iterable<Book> bookList){
         return bookService.addAllBooks(bookList);
+    }
+
+    @DeleteMapping("/deleteall")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteAll(){
+         bookService.deleteAll();
     }
 
 

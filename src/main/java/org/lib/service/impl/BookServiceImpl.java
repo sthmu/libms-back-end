@@ -53,25 +53,31 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book getBookById(Long id) {
-        Optional<BookEntity> byId=bookRepository.findById(id);
-        return modelMapper.map(byId,Book.class);
+        Optional<BookEntity> byId = bookRepository.findById(id);
+        return modelMapper.map(byId, Book.class);
     }
 
     @Override
     public ResponseEntity<String> addAllBooks(Iterable<Book> bookList) {
-        try{
-        List<BookEntity> entities=new ArrayList<>();
-        for(Book bookinLIst:bookList){
-            entities.add(modelMapper.map(bookinLIst,BookEntity.class));
+        try {
+            List<BookEntity> entities = new ArrayList<>();
+            for (Book bookinLIst : bookList) {
+                entities.add(modelMapper.map(bookinLIst, BookEntity.class));
+            }
+            Iterable<BookEntity> response = bookRepository.saveAll(entities);
+            return ResponseEntity.ok().body("{\"message\":\"Added All\"}");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"error\":\"An error occurred while saving\"}");
         }
-        Iterable<BookEntity> response=bookRepository.saveAll(entities);
-        return ResponseEntity.ok().body("{\"message\":\"Added All\"}");
-    } catch (Exception e) {
-        e.printStackTrace();
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"error\":\"An error occurred while saving\"}");
     }
+
+    public ResponseEntity<String> deleteAll(){
+        bookRepository.deleteAll();
+        return ResponseEntity.ok().body("{\"message\":\"DeletedAll\"}");
     }
 }
+
 
 
 

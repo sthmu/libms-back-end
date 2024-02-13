@@ -16,4 +16,6 @@ public interface BookService {
     Book getBookById(Long id);
 
     ResponseEntity<String> addAllBooks(Iterable<Book> bookList);
+
+    ResponseEntity<String> deleteAll();
 }
